@@ -1,4 +1,4 @@
-app = "startup-skills"
+app = "openclaw-startup-agent"
 primary_region = "ams"
 
 [build]
