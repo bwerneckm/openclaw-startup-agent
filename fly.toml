@@ -6,19 +6,14 @@ primary_region = "ams"
 
 [env]
   NODE_ENV = "production"
-  OPENCLAW_STATE_DIR = "/data"
   NODE_OPTIONS = "--max-old-space-size=1536"
 
-[processes]
-  app = "openclaw gateway --allow-unconfigured --port 3000 --bind custom"
-
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-  processes = ["app"]
 
 [[vm]]
   size = "shared-cpu-2x"
