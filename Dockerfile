@@ -26,4 +26,4 @@ USER node
 
 EXPOSE 3000
 
-CMD ["openclaw", "gateway", "--allow-unconfigured", "--port", "3000", "--bind", "lan"]
+CMD ["openclaw", "gateway", "--allow-unconfigured", "--port", "3000", "--bind", "custom"]
