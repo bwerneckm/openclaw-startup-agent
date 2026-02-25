@@ -5,7 +5,7 @@ FROM coollabsio/openclaw:latest
 # when running standalone on Fly.io.
 # Patch entrypoint: remove browser sidecar block + skip slow doctor --fix
 RUN sed -i '/# Browser sidecar proxy/,/^    }/d' /app/scripts/entrypoint.sh && \
-    sed -i 's/openclaw doctor --fix/echo "[entrypoint] skipping doctor (too slow for 2GB)"/' /app/scripts/entrypoint.sh
+    sed -i '/openclaw doctor --fix/d' /app/scripts/entrypoint.sh
 
 # Copy skills to be seeded into workspace on first boot
 COPY .claude/skills/ /tmp/startup-skills/
