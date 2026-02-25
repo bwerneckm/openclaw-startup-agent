@@ -10,7 +10,7 @@ primary_region = "ams"
   NODE_OPTIONS = "--max-old-space-size=1536"
 
 [processes]
-  app = "openclaw gateway --allow-unconfigured --port 3000 --bind 0.0.0.0"
+  app = "openclaw gateway --allow-unconfigured --port 3000 --bind lan"
 
 [http_service]
   internal_port = 3000
