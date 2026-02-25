@@ -1,23 +1,20 @@
 FROM coollabsio/openclaw:latest
 
-# Copy skills into workspace (persisted at /data/workspace on first run)
-COPY .claude/skills/ /tmp/skills/
+# Remove the browser sidecar nginx block that crashes without docker-compose.
+# The block references "proxy_pass http://browser:3000/" which fails DNS resolution
+# when running standalone on Fly.io.
+RUN sed -i '/# Browser sidecar proxy/,/^    }/d' /app/scripts/entrypoint.sh
 
-# Copy project docs
-COPY CLAUDE.md /tmp/workspace/
-COPY README.md /tmp/workspace/
-COPY docs/ /tmp/workspace/docs/
+# Copy skills to be seeded into workspace on first boot
+COPY .claude/skills/ /tmp/startup-skills/
+COPY CLAUDE.md /tmp/startup-workspace/CLAUDE.md
+COPY README.md /tmp/startup-workspace/README.md
+COPY docs/ /tmp/startup-workspace/docs/
 
-# Script to seed skills into the data volume on first boot
-RUN echo '#!/bin/sh' > /tmp/seed-skills.sh && \
-    echo 'mkdir -p /data/workspace/skills' >> /tmp/seed-skills.sh && \
-    echo 'cp -rn /tmp/skills/* /data/workspace/skills/ 2>/dev/null || true' >> /tmp/seed-skills.sh && \
-    echo 'cp -n /tmp/workspace/CLAUDE.md /data/workspace/ 2>/dev/null || true' >> /tmp/seed-skills.sh && \
-    echo 'cp -n /tmp/workspace/README.md /data/workspace/ 2>/dev/null || true' >> /tmp/seed-skills.sh && \
-    echo 'cp -rn /tmp/workspace/docs /data/workspace/ 2>/dev/null || true' >> /tmp/seed-skills.sh && \
-    chmod +x /tmp/seed-skills.sh
+# Create init script to seed skills into the data volume
+RUN printf '#!/bin/sh\nmkdir -p "$OPENCLAW_WORKSPACE_DIR/skills"\ncp -rn /tmp/startup-skills/* "$OPENCLAW_WORKSPACE_DIR/skills/" 2>/dev/null || true\ncp -n /tmp/startup-workspace/CLAUDE.md "$OPENCLAW_WORKSPACE_DIR/" 2>/dev/null || true\ncp -n /tmp/startup-workspace/README.md "$OPENCLAW_WORKSPACE_DIR/" 2>/dev/null || true\ncp -rn /tmp/startup-workspace/docs "$OPENCLAW_WORKSPACE_DIR/" 2>/dev/null || true\necho "[init] seeded startup skills into workspace"\n' > /tmp/seed-skills.sh \
+    && chmod +x /tmp/seed-skills.sh
 
-# Add skill seeding to init scripts if supported
-RUN mkdir -p /data/init && cp /tmp/seed-skills.sh /data/init/seed-skills.sh || true
+ENV OPENCLAW_DOCKER_INIT_SCRIPT=/tmp/seed-skills.sh
 
 EXPOSE 8080
