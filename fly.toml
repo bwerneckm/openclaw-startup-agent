@@ -1,5 +1,5 @@
 app = "openclaw-startup-agent"
-primary_region = "ams"
+primary_region = "gru"
 
 [build]
   dockerfile = "Dockerfile"
