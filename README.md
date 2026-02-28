@@ -1,8 +1,8 @@
-# OpenClaw Startup Agent
+# Startup Skills
 
-**A personal AI agent for operating a startup — 13 skills from idea validation to strategic planning, deployed on OpenClaw.**
+**A collection of 13 Claude Code skills for operating a startup — from idea validation to strategic planning.**
 
-An OpenClaw-powered agent loaded with delegation-focused workflows that produce concrete deliverables. Each skill combines 2-6 proven business frameworks into a sequenced workflow with fill-in templates. Built for pre-seed to Series A startups.
+Delegation-focused workflows that produce concrete deliverables. Each skill combines 2-6 proven business frameworks into a sequenced workflow with fill-in templates. Built for pre-seed to Series A startups.
 
 ## Skills
 
@@ -27,8 +27,8 @@ An OpenClaw-powered agent loaded with delegation-focused workflows that produce 
 ### Option 1: Clone and use directly
 
 ```bash
-git clone https://github.com/bwerneckm/openclaw-startup-agent.git
-cd openclaw-startup-agent
+git clone https://github.com/bwerneckm/startup-skills.git
+cd startup-skills
 claude  # Open Claude Code — skills are auto-discovered
 ```
 

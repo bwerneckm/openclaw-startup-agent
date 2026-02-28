@@ -1,4 +1,4 @@
-app = "openclaw-startup-agent"
+app = "startup-skills"
 primary_region = "gru"
 
 [build]
@@ -20,5 +20,5 @@ primary_region = "gru"
   memory = "2048mb"
 
 [mounts]
-  source = "openclaw_data"
+  source = "startup_skills_data"
   destination = "/data"
